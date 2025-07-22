@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ky">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Семантикалык HTML жана GitHub Pages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            text-align: center;
+            max-width: 1200px;
+            padding: 30px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2.3em;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+
+        h3 {
+            font-size: 1.7em;
+            margin-bottom: 15px;
+            color: #87CEEB;
+        }
+
+        h4 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            color: #98FB98;
+        }
+
+        p,
+        li {
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        ul {
+            text-align: left;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #FFD700;
+            font-size: 1em;
+            overflow-x: auto;
+        }
+
+        .highlight {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .emoji {
+            font-size: 1.3em;
+            margin-right: 8px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 1em;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .problem {
+            color: #FF6B6B;
+        }
+
+        .solution {
+            color: #4ECDC4;
+        }
+
+        .warning {
+            color: #FFA500;
+        }
+
+        .checklist li::before {
+            content: "✅ ";
+            color: #4ECDC4;
+        }
+
+        .error-list li::before {
+            content: "❌ ";
+            color: #FF6B6B;
+        }
+
+        .timeline {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .before,
+        .after {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .before {
+            border-left: 4px solid #FF6B6B;
+        }
+
+        .after {
+            border-left: 4px solid #4ECDC4;
+        }
+
+        .roadmap {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .small-text {
+            font-size: 1em;
+        }
+
+        .large-text {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.4em;
+            }
+
+            p,
+            li {
+                font-size: 1em;
+            }
+
+            .two-column,
+            .three-column {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .code-block {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">25</span>
+        </div>
+
+        <!-- Слайд 1: Титулдук -->
+        <div class="slide active">
+            <h1>🚀 СЕМАНТИКАЛЫК HTML</h1>
+            <h2>(кеңейтилген курс)</h2>
+            <h3>+ GitHub Pages кайталоо</h3>
+            <br>
+            <p class="large-text">Frontend Development Негиздери - Сабак 15</p>
+            <br><br>
+            <p><strong>Узактыгы:</strong> 90 мүнөт</p>
+            <p><strong>Фокус:</strong> Семантика 70% + GitHub Pages 30%</p>
+            <p><strong>Күнү:</strong> <span id="current-date"></span></p>
+        </div>
+
+        <!-- Слайд 2: Максаттар -->
+        <div class="slide">
+            <h2>🎯 БҮГҮНКҮ МАКСАТТАРЫБЫЗ</h2>
+            <br>
+            <div class="two-column">
+                <div>
+                    <h3>🧠 БИЛИМ БЕРҮҮЧҮЛҮК:</h3>
+                    <ul class="checklist">
+                        <li>HTML5 семантикалык элементтерди терең үйрөнүү</li>
+                        <li>SEO жана accessibility принциптери</li>
+                        <li>Код сапатын жогорулатуу ыкмалары</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>💻 ПРАКТИКАЛЫК:</h3>
+                    <ul class="checklist">
+                        <li>Портфолиону семантикалык кылуу</li>
+                        <li>ARIA атрибуттарын колдонуу</li>
+                        <li>GitHub Pages оптимизация</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <h3 class="large-text">🎉 ЖЫЙЫНТЫК: Профессионалдык код + SEO мыкты сайт!</h3>
+        </div>
+
+        <!-- Слайд 3: Мотивация -->
+        <div class="slide">
+            <h2>🤔 ЭМНЕ ҮЧҮН БУЛ МААНИЛҮҮ?</h2>
+            <br>
+            <h3>Google Search Demo:</h3>
+            <p class="small-text">"фронтенд разработчик Бишкек" деп издегенде...</p>
+            <br>
+            <div class="three-column">
+                <div>
+                    <h4>🥇 1-орун сайттар:</h4>
+                    <ul>
+                        <li>Семантикалык HTML ✅</li>
+                        <li>SEO оптимизация ✅</li>
+                        <li>Жогорку рейтинг ✅</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>📄 Орточо сайттар:</h4>
+                    <ul>
+                        <li>DIV + CSS гана</li>
+                        <li>SEO начар</li>
+                        <li>3-5 беттерде</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>❓ Силердин сайттар:</h4>
+                    <ul>
+                        <li>Азырча көрүнбөй жатат</li>
+                        <li>Себеби: семантика жок</li>
+                        <li><strong>Бүгүн оңдойбуз! 🔧</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 4: HTML эволюциясы -->
+        <div class="slide">
+            <h2>📚 HTML ЭВОЛЮЦИЯСЫ</h2>
+            <br>
+            <div class="timeline">
+                <h3>🕰️ Тарыхый жол:</h3>
+                <div class="two-column">
+                    <div>
+                        <h4>1990-жылдар:</h4>
+                        <p>&lt;table&gt; менен дизайн жасоо</p>
+
+                        <h4>2000-жылдар:</h4>
+                        <p>&lt;div&gt; + CSS эрасы</p>
+                    </div>
+                    <div>
+                        <h4>2010-жылдар:</h4>
+                        <p>HTML5 + семантика пайда болуу</p>
+
+                        <h4>2020-жылдар:</h4>
+                        <p>SEO + accessibility фокус</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h3 class="solution">✨ Эми биз заманбап HTML колдонобуз!</h3>
+        </div>
+
+        <!-- Слайд 5: Семантика = Маани -->
+        <div class="slide">
+            <h2>🧩 СЕМАНТИКА = МААНИ + СТРУКТУРА</h2>
+            <br>
+            <h3>📖 Китеп аналогиясы:</h3>
+            <div class="comparison-table">
+                <div class="before">
+                    <h4>📚 Китеп структурасы:</h4>
+                    <div class="code-block small-text">
+                        &lt;book&gt;
+                        &lt;title&gt;Башкы аталыш&lt;/title&gt;
+                        &lt;contents&gt;Мазмун&lt;/contents&gt;
+                        &lt;chapter&gt;Глава&lt;/chapter&gt;
+                        &lt;paragraph&gt;Абзац&lt;/paragraph&gt;
+                        &lt;index&gt;Көрсөткүч&lt;/index&gt;
+                        &lt;conclusion&gt;Жыйынтык&lt;/conclusion&gt;
+                        &lt;/book&gt;
+                    </div>
+                </div>
+                <div class="after">
+                    <h4>🌐 HTML структурасы:</h4>
+                    <div class="code-block small-text">
+                        &lt;html&gt;
+                        &lt;header&gt;Башкы аталыш&lt;/header&gt;
+                        &lt;nav&gt;Мазмун&lt;/nav&gt;
+                        &lt;section&gt;Глава&lt;/section&gt;
+                        &lt;p&gt;Абзац&lt;/p&gt;
+                        &lt;aside&gt;Көрсөткүч&lt;/aside&gt;
+                        &lt;footer&gt;Жыйынтык&lt;/footer&gt;
+                        &lt;/html&gt;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 6: Машиналар үчүн маани -->
+        <div class="slide">
+            <h2>🤖 МАШИНАЛАР ҮЧҮН МААНИ</h2>
+            <br>
+            <div class="comparison-table">
+                <div class="before">
+                    <h3 class="problem">❌ Машина көрбөйт:</h3>
+                    <div class="code-block">
+                        &lt;div class="title"&gt;Башкы аталыш&lt;/div&gt;
+                        &lt;div class="menu"&gt;Меню&lt;/div&gt;
+                        &lt;div class="content"&gt;Мазмун&lt;/div&gt;
+                    </div>
+                    <p>🤖 <em>"Бул эмне экенин билбейм..."</em></p>
+                </div>
+                <div class="after">
+                    <h3 class="solution">✅ Машина көрөт:</h3>
+                    <div class="code-block">
+                        &lt;h1&gt;Башкы аталыш&lt;/h1&gt;
+                        &lt;nav&gt;Меню&lt;/nav&gt;
+                        &lt;main&gt;Мазмун&lt;/main&gt;
+                    </div>
+                    <p>🤖 <em>"Мыкты! Баарын түшүндүм!"</em></p>
+                </div>
+            </div>
+            <br>
+            <h3>🎯 Натыйжа: Google, Screen Reader'лар, SEO боттор баарысы түшүнөт!</h3>
+        </div>
+
+        <!-- Слайд 7: Google алгоритми -->
+        <div class="slide">
+            <h2>🔍 GOOGLE АЛГОРИТМИ</h2>
+            <br>
+            <h3>Google кандай иштейт (жөнөкөйлөтүлгөн):</h3>
+            <br>
+            <div class="roadmap">
+                <h4>1️⃣ СКАНИРЛӨӨ:</h4>
+                <p>Сайт барактарын окуу</p>
+
+                <h4>2️⃣ СЕМАНТИКА ТАБУУ:</h4>
+                <p>&lt;header&gt;, &lt;h1&gt;, &lt;nav&gt; элементтерин издөө</p>
+
+                <h4>3️⃣ МАЗМУН АНАЛИЗИ:</h4>
+                <p>"Бул сайт эмне жөнүндө?" деп аныктоо</p>
+
+                <h4>4️⃣ РЕЙТИНГ БЕРҮҮ:</h4>
+                <p>Семантикалуу сайттарга жогорку рейтинг</p>
+            </div>
+            <br>
+            <h3 class="large-text">🎯 Максат: Google'дун достору болуу!</h3>
+        </div>
+
+        <!-- Слайд 8: HTML5 элементтери - 1 -->
+        <div class="slide">
+            <h2>🏗️ HTML5 СЕМАНТИКАЛЫК ЭЛЕМЕНТТЕР</h2>
+            <br>
+            <h3>1️⃣ Структуралык элементтер:</h3>
+            <br>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li><span class="emoji">📋</span><span class="highlight">&lt;header&gt;</span> - Сайт/бөлүм башы
+                        </li>
+                        <li><span class="emoji">🧭</span><span class="highlight">&lt;nav&gt;</span> - Навигация меню
+                        </li>
+                        <li><span class="emoji">📄</span><span class="highlight">&lt;main&gt;</span> - Негизги мазмун
+                            (бир гана!)</li>
+                        <li><span class="emoji">📑</span><span class="highlight">&lt;section&gt;</span> - Тематикалык
+                            бөлүм</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><span class="emoji">📰</span><span class="highlight">&lt;article&gt;</span> - Өз алдынча
+                            макала</li>
+                        <li><span class="emoji">📌</span><span class="highlight">&lt;aside&gt;</span> - Кошумча маалымат
+                        </li>
+                        <li><span class="emoji">📋</span><span class="highlight">&lt;footer&gt;</span> - Сайт/бөлүм аягы
+                        </li>
+                        <li><span class="emoji">🖼️</span><span class="highlight">&lt;figure&gt;</span> - Сүрөт +
+                            подпись</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <h4 class="warning">⚠️ Эрежелер:</h4>
+            <ul>
+                <li>&lt;main&gt; бир гана болушу керек</li>
+                <li>&lt;h1&gt; ар бир барака үчүн бир гана</li>
+                <li>Heading hierarchy: h1 → h2 → h3</li>
+            </ul>
+        </div>
+
+        <!-- Слайд 9: Live Coding - Header -->
+        <div class="slide">
+            <h2>👨‍💻 LIVE CODING: HEADER</h2>
+            <br>
+            <h3>Мисал: Айдана Касымованын портфолиосу</h3>
+            <br>
+            <div class="code-block">
+                &lt;header role="banner"&gt;
+                &lt;h1&gt;Айдана Касымова&lt;/h1&gt;
+                &lt;p&gt;Junior Frontend Developer&lt;/p&gt;
+
+                &lt;nav role="navigation" aria-label="Негизги навигация"&gt;
+                &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#about"&gt;Мен жөнүндө&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#skills"&gt;Билимдер&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#projects"&gt;Проекттер&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#contact"&gt;Байланыш&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;/nav&gt;
+                &lt;/header&gt;
+            </div>
+            <br>
+            <h4>🤔 Суроолор:</h4>
+            <ul class="small-text">
+                <li>Эмне үчүн &lt;h1&gt; колдондук, &lt;h2&gt; эмес?</li>
+                <li>role атрибуттары эмне үчүн керек?</li>
+                <li>aria-label эмне берет?</li>
+            </ul>
+        </div>
+
+        <!-- Слайд 10: Live Coding - Main -->
+        <div class="slide">
+            <h2>👨‍💻 LIVE CODING: MAIN</h2>
+            <br>
+            <div class="code-block small-text">
+                &lt;main role="main"&gt;
+                &lt;section id="about" aria-labelledby="about-heading"&gt;
+                &lt;h2 id="about-heading"&gt;Мен жөнүндө&lt;/h2&gt;
+                &lt;p&gt;Мен 20 жашта информатика студентимин...&lt;/p&gt;
+
+                &lt;figure&gt;
+                &lt;img src="images/photo.jpg" alt="Айдана Касымова - студент сүрөтү"&gt;
+                &lt;figcaption&gt;КТУ'да окуп жатам&lt;/figcaption&gt;
+                &lt;/figure&gt;
+                &lt;/section&gt;
+
+                &lt;section id="skills" aria-labelledby="skills-heading"&gt;
+                &lt;h2 id="skills-heading"&gt;Менин билимдерим&lt;/h2&gt;
+
+                &lt;article&gt;
+                &lt;h3&gt;Frontend&lt;/h3&gt;
+                &lt;ul&gt;
+                &lt;li&gt;HTML5&lt;/li&gt;
+                &lt;li&gt;CSS3&lt;/li&gt;
+                &lt;li&gt;JavaScript (баштапкы)&lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;/article&gt;
+                &lt;/section&gt;
+                &lt;/main&gt;
+            </div>
+        </div>
+
+        <!-- Слайд 11: Article элементи -->
+        <div class="slide">
+            <h2>📰 ARTICLE ЭЛЕМЕНТИ</h2>
+            <br>
+            <h3>Ар бир проект = өз алдынча макала</h3>
+            <br>
+            <div class="code-block small-text">
+                &lt;article itemscope itemtype="https://schema.org/CreativeWork"&gt;
+                &lt;header&gt;
+                &lt;h3 itemprop="name"&gt;HTML портфолио&lt;/h3&gt;
+                &lt;time datetime="2025-01-15" itemprop="dateCreated"&gt;
+                15-январь, 2025
+                &lt;/time&gt;
+                &lt;/header&gt;
+
+                &lt;p itemprop="description"&gt;
+                Биринчи HTML портфолио сайт.
+                Семантикалык элементтер колдонулган.
+                &lt;/p&gt;
+
+                &lt;details&gt;
+                &lt;summary&gt;Кошумча маалыматтар&lt;/summary&gt;
+                &lt;p&gt;Бул проект менин биринчи HTML тажрыйбам болду...&lt;/p&gt;
+                &lt;/details&gt;
+
+                &lt;footer&gt;
+                &lt;p&gt;&lt;strong&gt;Технологиялар:&lt;/strong&gt;
+                &lt;span itemprop="keywords"&gt;HTML5, CSS3, GitHub Pages&lt;/span&gt;
+                &lt;/p&gt;
+                &lt;a href="https://aidana.github.io/portfolio" itemprop="url"&gt;
+                Сайтты көрүү
+                &lt;/a&gt;
+                &lt;/footer&gt;
+                &lt;/article&gt;
+            </div>
+        </div>
+
+        <!-- Слайд 12: ARIA атрибуттары -->
+        <div class="slide">
+            <h2>♿ ARIA АТРИБУТТАРЫ</h2>
+            <br>
+            <h3>ARIA = Accessible Rich Internet Applications</h3>
+            <p class="small-text">Screen reader'лар үчүн кошумча маалымат</p>
+            <br>
+            <div class="three-column">
+                <div>
+                    <h4>🎭 РОЛДОР:</h4>
+                    <div class="code-block small-text">
+                        &lt;div role="button"&gt;Баскыч&lt;/div&gt;
+                        &lt;nav role="navigation"&gt;Меню&lt;/nav&gt;
+                        &lt;main role="main"&gt;Мазмун&lt;/main&gt;
+                    </div>
+                </div>
+                <div>
+                    <h4>🏷️ БЕЛГИЛЕР:</h4>
+                    <div class="code-block small-text">
+                        &lt;section aria-labelledby="heading-id"&gt;
+                        &lt;h2 id="heading-id"&gt;Башкы&lt;/h2&gt;
+                        &lt;/section&gt;
+
+                        &lt;nav aria-label="Негизги навигация"&gt;
+                    </div>
+                </div>
+                <div>
+                    <h4>📊 АБАЛДАР:</h4>
+                    <div class="code-block small-text">
+                        &lt;button aria-expanded="false"&gt;
+                        Меню
+                        &lt;/button&gt;
+
+                        &lt;div aria-hidden="true"&gt;
+                        Жашыруун мазмун
+                        &lt;/div&gt;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 13: Accessibility тестирлөө -->
+        <div class="slide">
+            <h2>🧪 ACCESSIBILITY ТЕСТИРЛӨӨ</h2>
+            <br>
+            <h3>Практикалык текшерүү ыкмалары:</h3>
+            <br>
+            <div class="two-column">
+                <div>
+                    <h4>⌨️ Клавиатура тести:</h4>
+                    <ul class="checklist">
+                        <li><strong>Tab</strong> баскычы менен навигация</li>
+                        <li><strong>Enter/Space</strong> менен активация</li>
+                        <li><strong>Esc</strong> менен чыгуу</li>
+                        <li>Визуалдык фокус көрүнүп турушу</li>
+                    </ul>
+
+                    <h4>🔧 Developer Tools:</h4>
+                    <ul class="checklist">
+                        <li><strong>F12</strong> → Lighthouse</li>
+                        <li>Accessibility табы</li>
+                        <li>Скор 90+ болушу керек</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>🎧 Screen Reader симуляция:</h4>
+                    <ul class="checklist">
+                        <li>Көздөрдү жумуп тестирлөө</li>
+                        <li>Heading'лар аркылуу навигация</li>
+                        <li>Alt текстин угуу</li>
+                        <li>Logical reading order</li>
+                    </ul>
+
+                    <h4>🎨 Визуалдык тести:</h4>
+                    <ul class="checklist">
+                        <li>Контраст жетиштүүбү?</li>
+                        <li>Текст окулганбы?</li>
+                        <li>Focus states көрүнүптү?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 14: Практикалык тапшырма -->
+        <div class="slide">
+            <h2>🛠️ ПРАКТИКАЛЫК ИШ (15 мүнөт)</h2>
+            <br>
+            <h3>👥 3 адамдан топ түзгүлө!</h3>
+            <br>
+            <div class="two-column">
+                <div>
+                    <h4>1️⃣ АНАЛИЗ (5 мүнөт):</h4>
+                    <ul class="checklist">
+                        <li>Кайсы div'дер семантикалык болот?</li>
+                        <li>Heading'дер туура орунбу?</li>
+                        <li>Navigation логикалуубу?</li>
+                        <li>ARIA атрибуттары керекпи?</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>2️⃣ КАЙРА ЖАЗУУ (10 мүнөт):</h4>
+                    <ul class="checklist">
+                        <li>div → семантикалык элемент</li>
+                        <li>ARIA атрибуттарын кошуу</li>
+                        <li>Heading hierarchy түзүү</li>
+                        <li>Alt текстин жазуу</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <h3>🎯 Натыйжа: Ар бир топто семантикалык портфолио!</h3>
+        </div>
+
+        <!-- Слайд 15: Мурунку vs Жаңы код -->
+        <div class="slide">
+            <h2>🔄 TRANSFORMATION МИСАЛЫ</h2>
+            <br>
+            <div class="comparison-table">
+                <div class="before">
+                    <h3 class="problem">❌ МУРУНКУ КОД:</h3>
+                    <div class="code-block small-text">
+                        &lt;div class="header"&gt;
+                        &lt;div class="name"&gt;Бекзат Омуров&lt;/div&gt;
+                        &lt;div class="job"&gt;Студент&lt;/div&gt;
+                        &lt;div class="menu"&gt;
+                        &lt;div&gt;&lt;a href="#about"&gt;Жөнүндө&lt;/a&gt;&lt;/div&gt;
+                        &lt;div&gt;&lt;a href="#projects"&gt;Проекттер&lt;/a&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;/div&gt;
+
+                        &lt;div class="content"&gt;
+                        &lt;div class="about-section"&gt;
+                        &lt;div class="title"&gt;Мен жөнүндө&lt;/div&gt;
+                        &lt;div class="text"&gt;Мен КТУ'нун студентимин...&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;/div&gt;
+                    </div>
+                </div>
+                <div class="after">
+                    <h3 class="solution">✅ ЖАҢЫ КОД:</h3>
+                    <div class="code-block small-text">
+                        &lt;header role="banner"&gt;
+                        &lt;h1&gt;Бекзат Омуров&lt;/h1&gt;
+                        &lt;p&gt;Информатика студенти&lt;/p&gt;
+
+                        &lt;nav aria-label="Негизги навигация"&gt;
+                        &lt;ul&gt;
+                        &lt;li&gt;&lt;a href="#about"&gt;Мен жөнүндө&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href="#projects"&gt;Проекттер&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                        &lt;/nav&gt;
+                        &lt;/header&gt;
+
+                        &lt;main role="main"&gt;
+                        &lt;section id="about" aria-labelledby="about-heading"&gt;
+                        &lt;h2 id="about-heading"&gt;Мен жөнүндө&lt;/h2&gt;
+                        &lt;p&gt;Мен КТУ'нун информатика факультетинин
+                        студентимин. Frontend разработкага кызыгам...&lt;/p&gt;
+                        &lt;/section&gt;
+                        &lt;/main&gt;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 16: GitHub Pages кайталоо -->
+        <div class="slide">
+            <h2>🔄 GITHUB PAGES КАЙТАЛОО</h2>
+            <br>
+            <h3>Тез экспресс-демонстрация:</h3>
+            <br>
+            <div class="roadmap">
+                <h4>1️⃣ ФАЙЛ СТРУКТУРАСЫ (30 сек):</h4>
+                <div class="code-block small-text">
+                    portfolio/
+                    ├── index.html ← МИЛДЕТТҮҮ!
+                    ├── style.css
+                    ├── images/photo.jpg
+                    └── README.md
+                </div>
+
+                <h4>2️⃣ GIT КОМАНДАНЫ (30 сек):</h4>
+                <div class="code-block small-text">
+                    git add .
+                    git commit -m "Семантикалык HTML кошулду"
+                    git push origin main
+                </div>
+
+                <h4>3️⃣ SETTINGS → PAGES (1 мүнөт)</h4>
+                <h4>4️⃣ ШИЛТЕМЕНИ ТЕКШЕРҮҮ (30 сек)</h4>
+            </div>
+        </div>
+
+        <!-- Слайд 17: Көп кездешүүчү каталар -->
+        <div class="slide">
+            <h2>🚨 ТОП-5 МАСЕЛЕ ЖАНА ЧЕЧИМДЕР</h2>
+            <br>
+            <div class="two-column">
+                <div>
+                    <h4 class="problem">❌ 1. 404 КАТА:</h4>
+                    <p class="small-text">Себеби: index.html жок</p>
+                    <p class="solution small-text">✅ Чечими: index.html түзүү (кичине тамга!)</p>
+
+                    <h4 class="problem">❌ 2. CSS ЖҮКПӨЙТ:</h4>
+                    <div class="code-block small-text">
+                        ❌ &lt;link href="/style.css"&gt;
+                        ✅ &lt;link href="style.css"&gt;
+                    </div>
+
+                    <h4 class="problem">❌ 3. СҮРӨТТӨР ЖОКТО:</h4>
+                    <div class="code-block small-text">
+                        ❌ &lt;img src="Photo.JPG"&gt; (регистр!)
+                        ✅ &lt;img src="photo.jpg"&gt;
+                    </div>
+                </div>
+                <div>
+                    <h4 class="problem">❌ 4. JAVASCRIPT ИШТЕБЕЙТ:</h4>
+                    <div class="code-block small-text">
+                        ❌ &lt;script src="/script.js"&gt;
+                        ✅ &lt;script src="script.js"&gt;
+                    </div>
+
+                    <h4 class="problem">❌ 5. ӨЗГӨРҮҮЛӨР КӨРҮНБӨЙТ:</h4>
+                    <p class="solution small-text">✅ Cache тазалоо: Ctrl + F5</p>
+
+                    <h4>🔧 DEBUGGING:</h4>
+                    <p class="small-text">F12 → Console табында каталарды карап көрүү</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 18: SEO оптимизация -->
+        <div class="slide">
+            <h2>🔍 SEO ОПТИМИЗАЦИЯ</h2>
+            <br>
+            <h3>Жогорку деңгээл кеңештер:</h3>
+            <br>
+            <div class="two-column">
+                <div>
+                    <h4>1️⃣ META ТЭГДЕР:</h4>
+                    <div class="code-block small-text">
+                        &lt;head&gt;
+                        &lt;meta charset="UTF-8"&gt;
+                        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                        &lt;meta name="description" content="Айдана Касымова - Frontend разработчик портфолиосу"&gt;
+                        &lt;meta name="keywords" content="фронтенд, HTML, CSS, Бишкек"&gt;
+                        &lt;meta name="author" content="Айдана Касымова"&gt;
+                        &lt;title&gt;Айдана Касымова - Frontend Developer&lt;/title&gt;
+                        &lt;/head&gt;
+                    </div>
+                </div>
+                <div>
+                    <h4>2️⃣ PERFORMANCE:</h4>
+                    <div class="code-block small-text">
+                        &lt;!-- Оптимизацияланган сүрөттөр --&gt;
+                        &lt;img src="photo.webp" alt="Сүрөт"
+                        loading="lazy" width="300" height="200"&gt;
+
+                        &lt;!-- Минификацияланган CSS --&gt;
+                        &lt;link href="style.min.css" rel="stylesheet"&gt;
+                    </div>
+
+                    <h4>3️⃣ СОЦИАЛДЫК ТАРМАКТАР:</h4>
+                    <div class="code-block small-text">
+                        &lt;!-- Open Graph --&gt;
+                        &lt;meta property="og:title" content="Айдана - Portfolio"&gt;
+                        &lt;meta property="og:description" content="Frontend разработчик"&gt;
+                        &lt;meta property="og:image" content="preview.jpg"&gt;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 19: Келечектеги жол -->
+        <div class="slide">
+            <h2>🛣️ КЕЛЕЧЕКТЕГИ ӨНҮГҮҮ ЖОЛУ</h2>
+            <br>
+            <h3>Frontend разработчик болуу roadmap:</h3>
+            <br>
+            <div class="roadmap">
+                <div class="three-column">
+                    <div>
+                        <h4>📚 НЕГИЗДЕР (Азыр):</h4>
+                        <ul class="checklist small-text">
+                            <li>HTML5 семантика ✅</li>
+                            <li>CSS3 стилдер</li>
+                            <li>JavaScript негиздери</li>
+                            <li>Git/GitHub</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>⚡ ОРТО ДЕҢГЭЭЛ:</h4>
+                        <ul class="small-text">
+                            <li>CSS Grid жана Flexbox</li>
+                            <li>JavaScript ES6+</li>
+                            <li>React.js фреймворку</li>
+                            <li>API менен иштөө</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>🚀 ИЛГЕРИЛҮҮ:</h4>
+                        <ul class="small-text">
+                            <li>TypeScript</li>
+                            <li>Node.js Backend</li>
+                            <li>Database (MongoDB)</li>
+                            <li>Full-stack разработчик</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h3 class="large-text">🎯 Биз эми биринчи кадамды жасадык!</h3>
+        </div>
+
+        <!-- Слайд 20: Үйгө тапшырма -->
+        <div class="slide">
+            <h2>📝 ҮЙГӨ ТАПШЫРМА</h2>
+            <br>
+            <div class="two-column">
+                <div>
+                    <h3>1️⃣ СЕМАНТИКАЛЫК РЕФАКТОРИНГ:</h3>
+                    <ul class="checklist small-text">
+                        <li>Бардык div'дерди семантикалык элементтер менен алмаштыруу</li>
+                        <li>Кеминде 8 семантикалык элемент колдонуу</li>
+                        <li>ARIA атрибуттарын кошуу (кеминде 3 түрү)</li>
+                        <li>Heading hierarchy туура түзүү</li>
+                    </ul>
+
+                    <h3>2️⃣ SEO ОПТИМИЗАЦИЯ:</h3>
+                    <ul class="checklist small-text">
+                        <li>Meta тэгдерди толтуруу</li>
+                        <li>Alt атрибуттарын сүрөттөргө кошуу</li>
+                        <li>Title тэгин оптимизациялоо</li>
+                        <li>Open Graph тэгдерин кошуу</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>3️⃣ ПРЕЗЕНТАЦИЯГА ДАЯРДАНЫУ:</h3>
+                    <ul class="checklist small-text">
+                        <li>5-7 слайд даярдоо</li>
+                        <li>3 мүнөт чыгып сүйлөш үчүн план</li>
+                        <li>Демонстрация үчүн сайт иштеши керек</li>
+                        <li>Технологиялар тизмеси даяр болушу керек</li>
+                    </ul>
+
+                    <h3>📅 ТАПШЫРУУ:</h3>
+                    <p class="large-text">Кийинки сабактын башына чейин</p>
+                    <p class="small-text">GitHub'га шилтемени жазып келиңер!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 21: Баалоо критерийлери -->
+        <div class="slide">
+            <h2>📊 БААЛОО КРИТЕРИЙЛЕРИ</h2>
+            <br>
+            <div class="roadmap">
+                <div class="two-column">
+                    <div>
+                        <h3>🎯 СЕМАНТИКАЛЫК ЭЛЕМЕНТТЕР (40%):</h3>
+                        <ul class="small-text">
+                            <li><strong>Мыкты (36-40):</strong> Бардык керектүү элементтер туура</li>
+                            <li><strong>Жакшы (30-35):</strong> Көпчүлүгү туура, кичине каталар</li>
+                            <li><strong>Канааттандыраарлык (24-29):</strong> Негиздери бар</li>
+                            <li><strong>Оңдоо керек (0-23):</strong> Семантика жок же туура эмес</li>
+                        </ul>
+
+                        <h3>♿ ARIA жана ACCESSIBILITY (20%):</h3>
+                        <ul class="small-text">
+                            <li>role атрибуттары</li>
+                            <li>aria-label, aria-labelledby</li>
+                            <li>Keyboard navigation</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>🔍 SEO ОПТИМИЗАЦИЯ (20%):</h3>
+                        <ul class="small-text">
+                            <li>Meta тэгдер толтурулган</li>
+                            <li>Title оптимизацияланган</li>
+                            <li>Alt текстер жазылган</li>
+                            <li>Heading hierarchy туура</li>
+                        </ul>
+
+                        <h3>💻 КОД САПАТЫ (20%):</h3>
+                        <ul class="small-text">
+                            <li>Структура таза</li>
+                            <li>Отступтар туура</li>
+                            <li>Комментарийлер бар</li>
+                            <li>Файлдар уюшкан</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 22: Презентация форматы -->
+        <div class="slide">
+            <h2>🎤 КИЙИНКИ САБАК: ПРЕЗЕНТАЦИЯ</h2>
+            <br>
+            <h3>Презентация структурасы (3 мүнөт):</h3>
+            <br>
+            <div class="roadmap">
+                <div class="two-column">
+                    <div>
+                        <h4>⏱️ УБАКЫТ БӨЛҮШТҮРҮҮ:</h4>
+                        <ul>
+                            <li><span class="emoji">👋</span><strong>Киришүү:</strong> Ат-жөн, максат (20 сек)</li>
+                            <li><span class="emoji">💻</span><strong>Демонстрация:</strong> Семантикалык өзгөрүүлөр (90
+                                сек)</li>
+                            <li><span class="emoji">🔧</span><strong>Технологиялар:</strong> Колдонулган элементтер (30
+                                сек)</li>
+                            <li><span class="emoji">⚡</span><strong>Кыйынчылыктар:</strong> Кандай кыйын болду (20 сек)
+                            </li>
+                            <li><span class="emoji">🚀</span><strong>Пландар:</strong> Кийин эмне кошмокчу (20 сек)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>💡 КЕҢЕШТЕР:</h4>
+                        <ul class="checklist">
+                            <li>Шилтемени текшерип кел</li>
+                            <li>Код фрагменттерин даярда</li>
+                            <li>Мурунку vs жаңы версияны көрсөт</li>
+                            <li>Суроолорго жооп берүүгө даяр бол</li>
+                        </ul>
+
+                        <h4>🏆 БААЛОО:</h4>
+                        <ul class="small-text">
+                            <li>Техникалык аспект (50%)</li>
+                            <li>Презентация көндүмү (30%)</li>
+                            <li>Креативдүүлүк (20%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 23: Ресурстар -->
+        <div class="slide">
+            <h2>📚 КОШУМЧА РЕСУРСТАР</h2>
+            <br>
+            <div class="three-column">
+                <div>
+                    <h4>📖 ДОКУМЕНТАЦИЯ:</h4>
+                    <ul class="small-text">
+                        <li><strong>MDN Web Docs:</strong> HTML семантика</li>
+                        <li><strong>WCAG 2.1:</strong> Accessibility стандарттары</li>
+                        <li><strong>Schema.org:</strong> Структуралык дата</li>
+                        <li><strong>W3C HTML5:</strong> Расмий спецификация</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>🔧 ИНСТРУМЕНТТЕР:</h4>
+                    <ul class="small-text">
+                        <li><strong>HTML5 Validator:</strong> Код текшерүү</li>
+                        <li><strong>WAVE:</strong> Accessibility анализатору</li>
+                        <li><strong>Lighthouse:</strong> Performance/SEO</li>
+                        <li><strong>axe DevTools:</strong> Accessibility тестирлөө</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>🎓 ОКУУ МАТЕРИАЛДАРЫ:</h4>
+                    <ul class="small-text">
+                        <li><strong>Google SEO Guide:</strong> Баштоочулар үчүн</li>
+                        <li><strong>A11y Project:</strong> Accessibility гиди</li>
+                        <li><strong>WebAIM:</strong> Screen reader тестирлөө</li>
+                        <li><strong>Can I Use:</strong> Браузер колдоосу</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <h3>💡 Кеңеш: Ушул ресурстарды bookmark кылгыла!</h3>
+        </div>
+
+        <!-- Слайд 24: Жыйынтык -->
+        <div class="slide">
+            <h2>🎯 БҮГҮН ҮЙРӨНГӨН НЕРСЕЛЕР</h2>
+            <br>
+            <div class="roadmap">
+                <div class="two-column">
+                    <div>
+                        <h3>🧠 ТЕОРИЯЛЫК БИЛИМ:</h3>
+                        <ul class="checklist">
+                            <li>HTML эволюциясы жана семантиканын пайда болушу</li>
+                            <li>Google алгоритминин иштеш принципи</li>
+                            <li>SEO жана accessibility маанилүүлүгү</li>
+                            <li>Семантика = маани + структура</li>
+                        </ul>
+
+                        <h3>💻 ПРАКТИКАЛЫК КӨНДҮМДӨР:</h3>
+                        <ul class="checklist">
+                            <li>HTML5 семантикалык элементтерди колдонуу</li>
+                            <li>ARIA атрибуттарын туура жазуу</li>
+                            <li>Accessibility тестирлөө ыкмалары</li>
+                            <li>GitHub Pages оптимизация</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>🏗️ КОЛДОНУЛГАН ЭЛЕМЕНТТЕР:</h3>
+                        <div class="code-block small-text">
+                            &lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;section&gt;
+                            &lt;article&gt; &lt;aside&gt; &lt;footer&gt; &lt;figure&gt;
+                            &lt;time&gt; &lt;address&gt; &lt;details&gt; &lt;summary&gt;
+
+                            role="banner" role="navigation"
+                            aria-label aria-labelledby
+                            aria-expanded aria-hidden
+                        </div>
+
+                        <h3>🎉 ЖЕТИШКЕНДИК:</h3>
+                        <p class="large-text">Силер эми профессионалдык деңгээлде HTML жаза алатысыңар!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Слайд 25: Жыйынтык жана мотивация -->
+        <div class="slide">
+            <h2>🚀 ЖЫЙЫНТЫК</h2>
+            <br><br>
+            <h1>🎉 КУТТУКТАЙБЫЗ!</h1>
+            <br>
+            <h3>Силердин сайттарыңар эми:</h3>
+            <ul class="large-text">
+                <li>✨ Семантикалуу</li>
+                <li>🔍 SEO оптимизацияланган</li>
+                <li>♿ Accessibility менен</li>
+                <li>🌐 Интернетте жарыяланган</li>
+            </ul>
+            <br><br>
+            <h2>👨‍💻 Силер чыныгы веб-разработчиксыңар!</h2>
+            <br>
+            <h3>Кийинки сабакта силердин мыкты презентацияларыңарды күтүп турабыз!</h3>
+            <br><br>
+            <h1>🙏 РАХМАТ!</h1>
+            <p class="large-text">Ийгилик каалайм! 🌟</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">⬅ Мурунку</button>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Кийинки ➡</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('ky-KG');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+
+            // Навигация баскычтарын жаңыртуу
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(n) {
+            if ((currentSlide === 0 && n === -1) || (currentSlide === totalSlides - 1 && n === 1)) {
+                return;
+            }
+            showSlide(currentSlide + n);
+        }
+
+        // Клавиатура менен башкаруу
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSlide(-1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(totalSlides - 1);
+            } else if (e.key === 'Escape') {
+                // Exit fullscreen
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+
+        // Баштапкы абалды коюу
+        showSlide(0);
+
+        // Толук экран режими
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'F11') {
+                e.preventDefault();
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+        });
+
+        // Сычкан менен навигация
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.nav-btn')) return;
+
+            const rect = document.querySelector('.slide.active').getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+
+            if (clickX > rect.width / 2) {
+                changeSlide(1);
+            } else {
+                changeSlide(-1);
+            }
+        });
+
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function (e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function (e) {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                changeSlide(1); // Swipe left, next slide
+            }
+            if (touchEndX - touchStartX > 50) {
+                changeSlide(-1); // Swipe right, previous slide
+            }
+        });
+    </script>
+</body>
+
+</html>
